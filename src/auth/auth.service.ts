@@ -5,10 +5,19 @@ import * as argon from 'argon2';
 import { Role } from '@prisma/client';
 import { RegisterResponseDto } from './dto/register-response.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login.dto';
+import { LoginResponseDto } from './dto/login-response.dto';
+import { UserDto } from './dto/user.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService,
+  ) {}
 
   async register(registerDto: RegisterDto): Promise<RegisterResponseDto> {
     const hashedPassword = await argon.hash(registerDto.password);
@@ -33,12 +42,64 @@ export class AuthService {
         },
       });
 
-      return user;
+      return user as RegisterResponseDto;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
-        throw new ForbiddenException('User with this email already exists');
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('User with this email already exists');
+        }
       }
       throw new Error('Registration failed');
     }
+  }
+
+  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: loginDto.email,
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        password: true,
+        year: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Invalid email or password');
+    }
+
+    const isPasswordValid = await argon.verify(
+      user.password,
+      loginDto.password,
+    );
+    if (!isPasswordValid) {
+      throw new ForbiddenException('Invalid email or password');
+    }
+
+    const { password, ...safeUser } = user;
+
+    const jwtToken = await this.signToken(safeUser as UserDto);
+
+    return { access_token: jwtToken };
+  }
+
+  signToken(user: UserDto): Promise<string> {
+    const payload = {
+      sub: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+    };
+    return this.jwt.signAsync(payload, {
+      expiresIn: '1d',
+      secret: this.config.get('JWT_SECRET'),
+      algorithm: this.config.get('JWT_ALGORITHM'),
+    });
   }
 }
