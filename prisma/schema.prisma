@@ -37,6 +37,7 @@ model Quiz {
   questions         Question[]
   submissions       QuizSubmission[]
   startTime         DateTime
+  year              Int
   durationInMinutes Int
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
