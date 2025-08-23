@@ -1,14 +1,16 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { RegisterDto } from './dto';
+import {
+  LoginDto,
+  LoginResponseDto,
+  RegisterDto,
+  RegisterResponseDto,
+  UserDto,
+} from './dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as argon from 'argon2';
 import { Role } from '@prisma/client';
-import { RegisterResponseDto } from './dto/register-response.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto } from './dto/login.dto';
-import { LoginResponseDto } from './dto/login-response.dto';
-import { UserDto } from './dto/user.dto';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -101,5 +103,14 @@ export class AuthService {
       secret: this.config.get('JWT_SECRET'),
       algorithm: this.config.get('JWT_ALGORITHM'),
     });
+  }
+
+  async logout(token: string) {
+    await this.prisma.blacklistedToken.create({
+      data: {
+        token,
+      },
+    });
+    return { message: 'Logged out successfully' };
   }
 }
