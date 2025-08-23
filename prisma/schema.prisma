@@ -71,6 +71,13 @@ model QuizSubmission {
   @@unique([quizId, userId])
 }
 
+model BlacklistedToken {
+  id        String   @id @default(uuid())
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Role {
   TEACHER
   STUDENT
