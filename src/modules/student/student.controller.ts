@@ -37,13 +37,26 @@ export class StudentController {
   @UseGuards(AuthGuard('jwt'))
   @Post('quiz/:quizId/submit')
   @HttpCode(200)
-  async submitQuiz(@Param('quizId') quizId: string, @Req() req: Request, @Body() quizSubmissionDto: QuizSubmissionDto) {
-    const { role, userId, year } = req.user as { role: string; userId: string; year: number };
+  async submitQuiz(
+    @Param('quizId') quizId: string,
+    @Req() req: Request,
+    @Body() quizSubmissionDto: QuizSubmissionDto,
+  ) {
+    const { role, userId, year } = req.user as {
+      role: string;
+      userId: string;
+      year: number;
+    };
 
     if (role !== 'STUDENT') {
       throw new ForbiddenException({ message: 'Insufficient Role' });
     }
 
-    return this.studentService.submitQuiz(quizSubmissionDto, userId, year, quizId);
+    return this.studentService.submitQuiz(
+      quizSubmissionDto,
+      userId,
+      year,
+      quizId,
+    );
   }
 }
