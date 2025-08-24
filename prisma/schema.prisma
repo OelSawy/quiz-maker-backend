@@ -62,7 +62,7 @@ model QuizSubmission {
   id        String   @id @default(uuid())
   quizId    String
   userId    String
-  answers   Json
+  answers   Json[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -28,7 +28,7 @@ export class TeacherController {
     const { role, userId } = req.user as { role: string; userId: string };
 
     if (role !== 'TEACHER') {
-      throw new ForbiddenException({ message: 'Insufficient Rols' });
+      throw new ForbiddenException({ message: 'Insufficient Role' });
     }
 
     return this.teacherService.createQuiz(quizDto, userId);
@@ -40,7 +40,7 @@ export class TeacherController {
     const { role, userId } = req.user as { role: string; userId: string };
 
     if (role !== 'TEACHER') {
-      throw new ForbiddenException({ message: 'Insufficient Rols' });
+      throw new ForbiddenException({ message: 'Insufficient Role' });
     }
 
     return this.teacherService.getMyQuizzes(userId);
@@ -52,7 +52,7 @@ export class TeacherController {
     const { role, userId } = req.user as { role: string; userId: string };
 
     if (role !== 'TEACHER') {
-      throw new ForbiddenException({ message: 'Insufficient Rols' });
+      throw new ForbiddenException({ message: 'Insufficient Role' });
     }
 
     return this.teacherService.deleteQuiz(userId, quizId);
