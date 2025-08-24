@@ -3,8 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { QuizSubmissionDto } from '../common/dto';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { QuizSubmissionDto } from '../../common/dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()

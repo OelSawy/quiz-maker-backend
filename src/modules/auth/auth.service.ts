@@ -6,7 +6,7 @@ import {
   RegisterResponseDto,
   UserDto,
 } from './dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/modules/prisma/prisma.service';
 import * as argon from 'argon2';
 import { Role } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';

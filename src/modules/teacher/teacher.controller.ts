@@ -12,7 +12,7 @@ import {
 import { TeacherService } from './teacher.service';
 import { QuizDto } from './dto';
 import type { Request } from 'express';
-import { JwtStrategy } from 'src/auth/strategy';
+import { JwtStrategy } from 'src/modules/auth/strategy';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('teacher')
