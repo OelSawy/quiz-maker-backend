@@ -1,7 +1,4 @@
-import {
-  ArrayNotEmpty,
-  ValidateNested,
-} from 'class-validator';
+import { ArrayNotEmpty, ValidateNested } from 'class-validator';
 import { AnswerDto } from './answer.dto';
 import { Type } from 'class-transformer';
 

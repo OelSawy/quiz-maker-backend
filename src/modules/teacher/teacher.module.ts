@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TeacherService } from './teacher.service';
 import { TeacherController } from './teacher.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from 'src/auth/strategy';
+import { JwtStrategy } from 'src/modules/auth/strategy';
 
 @Module({
   imports: [JwtModule.register({})],
