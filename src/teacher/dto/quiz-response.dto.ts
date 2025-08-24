@@ -1,4 +1,4 @@
-import { QuestionResponseDto } from "./question-response.dto";
+import { QuestionResponseDto } from './question-response.dto';
 
 export class QuizResponseDto {
   id: string;

@@ -1,4 +1,4 @@
-import { QuestionType } from "@prisma/client";
+import { QuestionType } from '@prisma/client';
 
 export class QuestionResponseDto {
   id: string;
