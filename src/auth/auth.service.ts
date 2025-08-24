@@ -97,6 +97,7 @@ export class AuthService {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
+      year: user.year ?? null,
     };
     return this.jwt.signAsync(payload, {
       expiresIn: '1d',
