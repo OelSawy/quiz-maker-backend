@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
+  Get,
+  Param,
   Post,
   Req,
   UseGuards,
@@ -29,5 +32,29 @@ export class TeacherController {
     }
 
     return this.teacherService.createQuiz(quizDto, userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('quiz')
+  async getMyQuizzes(@Req() req: Request) {
+    const { role, userId } = req.user as { role: string; userId: string };
+
+    if (role !== 'TEACHER') {
+      throw new ForbiddenException({ message: 'Insufficient Rols' });
+    }
+
+    return this.teacherService.getMyQuizzes(userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('quiz/:quizId')
+  async deleteQuiz(@Param('quizId') quizId: string, @Req() req: Request) {
+    const { role, userId } = req.user as { role: string; userId: string };
+
+    if (role !== 'TEACHER') {
+      throw new ForbiddenException({ message: 'Insufficient Rols' });
+    }
+
+    return this.teacherService.deleteQuiz(userId, quizId);
   }
 }
