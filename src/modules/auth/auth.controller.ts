@@ -9,14 +9,22 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto } from './dto';
+import {
+  RegisterDto,
+  LoginDto,
+  RegisterResponseDto,
+  LoginResponseDto,
+} from './dto';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request, Response } from 'express';
+import { ApiBody, ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiBody({ type: RegisterDto })
+  @ApiResponse({ status: 201, type: RegisterResponseDto })
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
@@ -24,6 +32,8 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, type: LoginResponseDto })
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,

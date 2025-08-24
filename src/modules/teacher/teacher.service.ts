@@ -4,13 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
-import { QuizDto } from './dto';
+import { TeacherQuizDto } from './dto';
 
 @Injectable()
 export class TeacherService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createQuiz(quizDto: QuizDto, teacherId: string) {
+  async createQuiz(quizDto: TeacherQuizDto, teacherId: string) {
     const teacher = await this.prisma.user.findUnique({
       where: { id: teacherId },
     });

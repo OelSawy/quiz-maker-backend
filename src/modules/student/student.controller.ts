@@ -14,6 +14,8 @@ import { JwtStrategy } from 'src/modules/auth/strategy';
 import type { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { QuizSubmissionDto } from 'src/common/dto';
+import { ApiParam, ApiResponse } from '@nestjs/swagger';
+import { StudentQuizDto } from './dto';
 
 @Controller('student')
 export class StudentController {
@@ -24,6 +26,7 @@ export class StudentController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('quiz')
+  @ApiResponse({ status: 200, type: StudentQuizDto })
   async getQuizzes(@Req() req: Request) {
     const { role, year } = req.user as { role: string; year: number };
 
@@ -37,6 +40,8 @@ export class StudentController {
   @UseGuards(AuthGuard('jwt'))
   @Post('quiz/:quizId/submit')
   @HttpCode(200)
+  @ApiParam({ name: 'quizId', type: 'string' })
+  @ApiResponse({ status: 201, example: { message: 'Quiz submitted' } })
   async submitQuiz(
     @Param('quizId') quizId: string,
     @Req() req: Request,

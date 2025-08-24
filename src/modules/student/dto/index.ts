@@ -1,2 +1,2 @@
-export * from './quiz.dto';
-export * from './question.dto';
+export * from './student-quiz.dto';
+export * from './student-question.dto';
