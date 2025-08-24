@@ -34,9 +34,10 @@ model Quiz {
   id                String           @id @default(uuid())
   teacherId         String
   title             String
-  questions         Question[]
+  questions         Question[]  
   submissions       QuizSubmission[]
   startTime         DateTime
+  year              Int
   durationInMinutes Int
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
@@ -54,7 +55,7 @@ model Question {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 
-  quiz Quiz @relation(fields: [quizId], references: [id])
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
 model QuizSubmission {
