@@ -16,6 +16,7 @@ import type { Request } from 'express';
 import { JwtStrategy } from 'src/modules/auth/strategy';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse } from '@nestjs/swagger';
+import { TeacherQuizResponseDto } from './dto/teacher-quiz-response.dto';
 
 @Controller('teacher')
 export class TeacherController {
@@ -37,8 +38,8 @@ export class TeacherController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('quiz')
-  @ApiResponse({ status: 200, type: TeacherQuizDto })
+  @Get('quizzes')
+  @ApiResponse({ status: 200, type: TeacherQuizResponseDto })
   @HttpCode(200)
   async getMyQuizzes(@Req() req: Request) {
     const { role, userId } = req.user as { role: string; userId: string };

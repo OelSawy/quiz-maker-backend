@@ -44,7 +44,7 @@ export class AuthService {
         },
       });
 
-      return user as RegisterResponseDto;
+      return { user } as RegisterResponseDto;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -87,7 +87,7 @@ export class AuthService {
 
     const jwtToken = await this.signToken(safeUser as UserDto);
 
-    return { access_token: jwtToken };
+    return { access_token: jwtToken, user: safeUser} as LoginResponseDto;
   }
 
   signToken(user: UserDto): Promise<string> {

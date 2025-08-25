@@ -25,7 +25,7 @@ export class StudentController {
   ) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('quiz')
+  @Get('quizzes')
   @ApiResponse({ status: 200, type: StudentQuizDto })
   async getQuizzes(@Req() req: Request) {
     const { role, year } = req.user as { role: string; year: number };

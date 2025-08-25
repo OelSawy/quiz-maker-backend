@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/modules/prisma/prisma.service';
 import { TeacherQuizDto } from './dto';
+import { TeacherQuizResponseDto } from './dto/teacher-quiz-response.dto';
 
 @Injectable()
 export class TeacherService {
@@ -34,9 +35,12 @@ export class TeacherService {
         },
         teacherId,
       },
+      include: {
+        questions: true
+      }
     });
 
-    return quiz;
+    return quiz as TeacherQuizResponseDto;
   }
 
   async getMyQuizzes(teacherId: string) {
