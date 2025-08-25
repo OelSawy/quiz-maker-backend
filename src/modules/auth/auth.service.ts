@@ -68,6 +68,7 @@ export class AuthService {
         password: true,
         year: true,
         role: true,
+        quizSubmissions: true,
       },
     });
 
@@ -87,7 +88,7 @@ export class AuthService {
 
     const jwtToken = await this.signToken(safeUser as UserDto);
 
-    return { access_token: jwtToken, user: safeUser} as LoginResponseDto;
+    return { access_token: jwtToken, user: safeUser } as LoginResponseDto;
   }
 
   signToken(user: UserDto): Promise<string> {

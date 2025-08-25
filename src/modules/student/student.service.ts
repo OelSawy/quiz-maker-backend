@@ -100,6 +100,20 @@ export class StudentService {
       }
     }
 
+    const user = await this.prisma.user.findUnique({
+      where: { id: studentId },
+      select: { quizSubmissions: true },
+    });
+
+    const updatedQuizzes = [...(user?.quizSubmissions || []), quizId];
+
+    await this.prisma.user.update({
+      where: { id: studentId },
+      data: {
+        quizSubmissions: updatedQuizzes,
+      },
+    });
+
     return { message: 'Quiz submitted' };
   }
 }

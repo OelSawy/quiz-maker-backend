@@ -26,15 +26,16 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  quizzes     Quiz[]           @relation("TeacherQuizzes")
-  submissions QuizSubmission[]
+  quizzes         Quiz[]           @relation("TeacherQuizzes")
+  submissions     QuizSubmission[]
+  quizSubmissions String[]
 }
 
 model Quiz {
   id                String           @id @default(uuid())
   teacherId         String
   title             String
-  questions         Question[]  
+  questions         Question[]
   submissions       QuizSubmission[]
   startTime         DateTime
   year              Int

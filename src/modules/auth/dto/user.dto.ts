@@ -37,4 +37,10 @@ export class UserDto {
     description: 'User year of study [If student]',
   })
   year?: number;
+
+  @ApiProperty({
+    example: "quiz4",
+    "description" : "submitted quiz id"
+  })
+  quizSubmissions: string[] = []
 }
